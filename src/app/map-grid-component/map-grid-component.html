@@ -8,6 +8,7 @@
   <title>Document</title>
 </head>
 <body>
+  <h2>SUPPLY CHAIN SIMULATOR</h2>
   <div>
     <input type="number" [(ngModel)]="days" min="1">
     <button (click)="advanceDays()">ADVANCE DAYS</button>
@@ -20,6 +21,10 @@
            [class.warehouse]="isWarehouse(cell.x, cell.y)">
       </div>
     }
+  </div>
+  <div class="legend">
+    <div class="cell truck"></div><p>TRUCK</p>
+    <div class="cell warehouse"></div><p>WAREHOUSE</p>
   </div>
 </body>
 </html>
