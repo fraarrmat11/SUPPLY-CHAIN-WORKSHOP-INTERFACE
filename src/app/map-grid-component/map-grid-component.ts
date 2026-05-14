@@ -53,7 +53,7 @@ export class MapGridComponent implements OnInit, OnDestroy {
   }
 
   advanceDays() {
-    this.http.post(`http://localhost:8081/tick/${this.days}`, {}).subscribe({
+    this.http.post(`http://18.201.141.240:8081/tick/${this.days}`, {}).subscribe({
       next: () => {
         this.getActualDay();
         this.loadMapState();
@@ -63,7 +63,7 @@ export class MapGridComponent implements OnInit, OnDestroy {
   }
 
   loadMapState() {
-    this.http.get<MapState>('http://localhost:8080/map').subscribe({
+    this.http.get<MapState>('http://52.49.33.24:8080/map').subscribe({
       next: (data) => {
         this.applyMapState(data);
         this.cdr.markForCheck();  // ← notifica a OnPush que hay cambios
@@ -73,7 +73,7 @@ export class MapGridComponent implements OnInit, OnDestroy {
   }
 
   getActualDay() {
-    this.http.get<{ currentDay: number }>(`http://localhost:8081/tick/current`).subscribe({
+    this.http.get<{ currentDay: number }>(`http://18.201.141.240:8081/tick/current`).subscribe({
       next: (data) => {
         this.actualDay = data.currentDay;
         this.cdr.markForCheck();
@@ -86,7 +86,7 @@ export class MapGridComponent implements OnInit, OnDestroy {
   DON'T TOUCH THIS
   startPolling() {
     this.pollSub = interval(MAP_POLL_INTERVAL_MS)
-      .pipe(switchMap(() => this.http.get<MapState>('http://localhost:8080/map')))
+      .pipe(switchMap(() => this.http.get<MapState>('http://52.49.33.24:8080/map')))
       .subscribe({
         next: (data) => {
           this.applyMapState(data);
