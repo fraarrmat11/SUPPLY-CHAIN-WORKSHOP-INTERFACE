@@ -1,0 +1,118 @@
+<div class="warehouse-container">
+  <h1>Warehouses</h1>
+
+  <!-- global response banner -->
+  <div class="banner" *ngIf="responseMessage">{{ responseMessage }}</div>
+
+  <!-- ── GET /warehouses/list ──────────────────────────────── -->
+  <section class="card">
+    <h2>All Warehouses <span class="endpoint">GET /warehouses/list</span></h2>
+    <button (click)="fetchAll()" [disabled]="loadingMap['list']">
+      {{ loadingMap['list'] ? 'Loading…' : 'Fetch All' }}
+    </button>
+    <p class="error" *ngIf="errorMap['list']">{{ errorMap['list'] }}</p>
+    <div class="results" *ngIf="warehouses.length">
+      <p class="count">{{ warehouses.length }} record(s)</p>
+      <table>
+        <thead>
+          <tr><th *ngFor="let col of objectKeys(warehouses[0])">{{ col }}</th></tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let w of warehouses">
+            <td *ngFor="let col of objectKeys(w)">{{ w[col] }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── GET /warehouses/:id ──────────────────────────────── -->
+  <section class="card">
+    <h2>Warehouse by ID <span class="endpoint">GET /warehouses/:id</span></h2>
+    <div class="input-row">
+      <input [(ngModel)]="getByIdInput" placeholder="Warehouse ID" />
+      <button (click)="fetchById()" [disabled]="loadingMap['byId'] || !getByIdInput.trim()">
+        {{ loadingMap['byId'] ? 'Loading…' : 'Fetch' }}
+      </button>
+    </div>
+    <p class="error" *ngIf="errorMap['byId']">{{ errorMap['byId'] }}</p>
+    <div class="results" *ngIf="warehouseById">
+      <table>
+        <tbody>
+          <tr *ngFor="let key of objectKeys(warehouseById)">
+            <th>{{ key }}</th>
+            <td>{{ warehouseById[key] }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── GET /warehouses/available ────────────────────────── -->
+  <section class="card">
+    <h2>Available Warehouse <span class="endpoint">GET /warehouses/available</span></h2>
+    <button (click)="fetchAvailable()" [disabled]="loadingMap['available']">
+      {{ loadingMap['available'] ? 'Loading…' : 'Find Available' }}
+    </button>
+    <p class="error" *ngIf="errorMap['available']">{{ errorMap['available'] }}</p>
+    <div class="results" *ngIf="availableWarehouse">
+      <table>
+        <tbody>
+          <tr *ngFor="let key of objectKeys(availableWarehouse)">
+            <th>{{ key }}</th>
+            <td>{{ availableWarehouse[key] }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── POST /warehouses ──────────────────────────────────── -->
+  <section class="card">
+    <h2>Create Warehouse <span class="endpoint">POST /warehouses</span></h2>
+    <textarea [(ngModel)]="saveJson" placeholder='{ "name": "...", "type": "..." }'></textarea>
+    <button (click)="save()" [disabled]="loadingMap['save'] || !saveJson.trim()">
+      {{ loadingMap['save'] ? 'Saving…' : 'Save' }}
+    </button>
+    <p class="error" *ngIf="errorMap['save']">{{ errorMap['save'] }}</p>
+  </section>
+
+  <!-- ── PUT /warehouses/:id ───────────────────────────────── -->
+  <section class="card">
+    <h2>Update Warehouse <span class="endpoint">PUT /warehouses/:id</span></h2>
+    <div class="input-row">
+      <input [(ngModel)]="updateIdInput" placeholder="Warehouse ID" />
+    </div>
+    <textarea [(ngModel)]="updateJson" placeholder='{ "name": "...", "type": "..." }'></textarea>
+    <button (click)="update()" [disabled]="loadingMap['update'] || !updateIdInput.trim() || !updateJson.trim()">
+      {{ loadingMap['update'] ? 'Updating…' : 'Update' }}
+    </button>
+    <p class="error" *ngIf="errorMap['update']">{{ errorMap['update'] }}</p>
+  </section>
+
+  <!-- ── DELETE /warehouses/:id ────────────────────────────── -->
+  <section class="card">
+    <h2>Delete Warehouse <span class="endpoint">DELETE /warehouses/:id</span></h2>
+    <div class="input-row">
+      <input [(ngModel)]="deleteIdInput" placeholder="Warehouse ID" />
+      <button class="btn-danger" (click)="delete()" [disabled]="loadingMap['delete'] || !deleteIdInput.trim()">
+        {{ loadingMap['delete'] ? 'Deleting…' : 'Delete' }}
+      </button>
+    </div>
+    <p class="error" *ngIf="errorMap['delete']">{{ errorMap['delete'] }}</p>
+  </section>
+
+  <!-- ── PATCH /warehouses/assignFactory/:warehouseId ─────── -->
+  <section class="card">
+    <h2>Assign Factory <span class="endpoint">PATCH /warehouses/assignFactory/:warehouseId</span></h2>
+    <div class="input-row">
+      <input [(ngModel)]="assignWarehouseIdInput" placeholder="Warehouse ID" />
+      <input [(ngModel)]="assignFactoryIdInput" placeholder="Factory ID" />
+      <button (click)="assignFactory()"
+        [disabled]="loadingMap['assign'] || !assignWarehouseIdInput.trim() || !assignFactoryIdInput.trim()">
+        {{ loadingMap['assign'] ? 'Assigning…' : 'Assign' }}
+      </button>
+    </div>
+    <p class="error" *ngIf="errorMap['assign']">{{ errorMap['assign'] }}</p>
+  </section>
+</div>

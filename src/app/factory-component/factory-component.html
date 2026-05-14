@@ -1,0 +1,148 @@
+<div class="page-container">
+  <h1>Factories</h1>
+
+  <!-- ════════════════════════════════════════════════════════
+       FACTORIES
+  ════════════════════════════════════════════════════════ -->
+
+  <h2 class="section-label">Factories <span class="endpoint">base: /factories</span></h2>
+
+  <!-- ── POST /factories ──────────────────────────────────── -->
+  <section class="card">
+    <h3>Register Factory <span class="endpoint">POST /factories</span></h3>
+    <textarea [(ngModel)]="factoryJson"
+      placeholder='{ "name": "Factory-A", "locationX": 10, "locationY": 20, "assignedRecipeIds": ["recipe-id-1"] }'></textarea>
+    <button (click)="registerFactory()" [disabled]="loadingMap['regFactory'] || !factoryJson.trim()">
+      {{ loadingMap['regFactory'] ? 'Registering…' : 'Register' }}
+    </button>
+    <p class="error" *ngIf="errorMap['regFactory']">{{ errorMap['regFactory'] }}</p>
+    <div class="results" *ngIf="registeredFactory">
+      <table>
+        <tbody>
+          <tr *ngFor="let key of objectKeys(registeredFactory)">
+            <th>{{ key }}</th>
+            <td>{{ registeredFactory[key] | json }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── GET /factories/:productId ────────────────────────── -->
+  <section class="card">
+    <h3>Find Factory by Product <span class="endpoint">GET /factories/:productId</span></h3>
+    <div class="input-row">
+      <input [(ngModel)]="productIdInput" placeholder="Product ID" />
+      <button (click)="findFactoryByProduct()" [disabled]="loadingMap['findFactory'] || !productIdInput.trim()">
+        {{ loadingMap['findFactory'] ? 'Loading…' : 'Find' }}
+      </button>
+    </div>
+    <p class="error" *ngIf="errorMap['findFactory']">{{ errorMap['findFactory'] }}</p>
+    <div class="results" *ngIf="factoryByProduct">
+      <table>
+        <tbody>
+          <tr *ngFor="let key of objectKeys(factoryByProduct)">
+            <th>{{ key }}</th>
+            <td>{{ factoryByProduct[key] | json }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════
+       RECIPES
+  ════════════════════════════════════════════════════════ -->
+
+  <h2 class="section-label">Recipes <span class="endpoint">base: /recipes</span></h2>
+
+  <!-- ── POST /recipes ────────────────────────────────────── -->
+  <section class="card">
+    <h3>Register Recipe <span class="endpoint">POST /recipes</span></h3>
+    <textarea [(ngModel)]="recipeJson"
+      placeholder='{ "name": "Widget", "inputs": [{ "productId": "raw-1", "quantity": 2 }], "outputProductId": "widget-1", "buildTimeInDays": 3 }'></textarea>
+    <button (click)="registerRecipe()" [disabled]="loadingMap['regRecipe'] || !recipeJson.trim()">
+      {{ loadingMap['regRecipe'] ? 'Registering…' : 'Register' }}
+    </button>
+    <p class="error" *ngIf="errorMap['regRecipe']">{{ errorMap['regRecipe'] }}</p>
+    <div class="results" *ngIf="registeredRecipe">
+      <table>
+        <tbody>
+          <tr *ngFor="let key of objectKeys(registeredRecipe)">
+            <th>{{ key }}</th>
+            <td>{{ registeredRecipe[key] | json }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── GET /recipes ─────────────────────────────────────── -->
+  <section class="card">
+    <h3>All Recipes <span class="endpoint">GET /recipes</span></h3>
+    <button (click)="listRecipes()" [disabled]="loadingMap['recipes']">
+      {{ loadingMap['recipes'] ? 'Loading…' : 'Fetch All' }}
+    </button>
+    <p class="error" *ngIf="errorMap['recipes']">{{ errorMap['recipes'] }}</p>
+    <div class="results" *ngIf="recipes.length">
+      <p class="count">{{ recipes.length }} recipe(s)</p>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Output</th>
+            <th>Build Time (days)</th>
+            <th>Inputs</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let r of recipes">
+            <td>{{ r.id }}</td>
+            <td>{{ r.name }}</td>
+            <td>{{ r.outputProductId }}</td>
+            <td>{{ r.buildTimeInDays }}</td>
+            <td>{{ r.inputs | json }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════
+       WAREHOUSE ORDERS
+  ════════════════════════════════════════════════════════ -->
+
+  <h2 class="section-label">Warehouse Orders <span class="endpoint">base: /warehouses/:id/orders</span></h2>
+
+  <!-- ── POST /warehouses/:warehouseId/orders ─────────────── -->
+  <section class="card">
+    <h3>Place Order <span class="endpoint">POST /warehouses/:warehouseId/orders</span></h3>
+    <div class="form-grid">
+      <label>Warehouse ID
+        <input [(ngModel)]="orderWarehouseIdInput" placeholder="Warehouse ID" />
+      </label>
+      <label>Product ID
+        <input [(ngModel)]="orderProductIdInput" placeholder="Product ID" />
+      </label>
+      <label>Quantity
+        <input type="number" [(ngModel)]="orderQuantityInput" placeholder="e.g. 10" min="1" />
+      </label>
+    </div>
+    <button (click)="placeOrder()"
+      [disabled]="loadingMap['order'] || !orderWarehouseIdInput.trim() || !orderProductIdInput.trim() || !orderQuantityInput || orderQuantityInput < 1">
+      {{ loadingMap['order'] ? 'Placing…' : 'Place Order' }}
+    </button>
+    <p class="error" *ngIf="errorMap['order']">{{ errorMap['order'] }}</p>
+    <div class="results" *ngIf="placedOrder">
+      <table>
+        <tbody>
+          <tr *ngFor="let key of objectKeys(placedOrder)">
+            <th>{{ key }}</th>
+            <td>{{ placedOrder[key] }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>

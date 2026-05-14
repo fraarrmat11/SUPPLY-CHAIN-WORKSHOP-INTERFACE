@@ -1,0 +1,61 @@
+<div class="page-container">
+  <h1>Trucks</h1>
+
+  <!-- ── GET /trucks ──────────────────────────────────────── -->
+  <section class="card">
+    <h2>Fleet <span class="endpoint">GET /trucks</span></h2>
+    <button (click)="fetchAll()" [disabled]="loadingMap['list']">
+      {{ loadingMap['list'] ? 'Loading…' : 'Fetch All' }}
+    </button>
+    <p class="error" *ngIf="errorMap['list']">{{ errorMap['list'] }}</p>
+    <div class="results" *ngIf="trucks.length">
+      <p class="count">{{ trucks.length }} truck(s)</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Truck ID</th>
+            <th>Status</th>
+            <th>X</th>
+            <th>Y</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let t of trucks">
+            <td>{{ t.truckId }}</td>
+            <td>{{ t.status }}</td>
+            <td>{{ t.location?.x }}</td>
+            <td>{{ t.location?.y }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── POST /trucks ─────────────────────────────────────── -->
+  <section class="card">
+    <h2>Register Truck <span class="endpoint">POST /trucks</span></h2>
+    <div class="form-grid">
+      <label>Name
+        <input [(ngModel)]="nameInput" placeholder="e.g. Truck-Alpha" />
+      </label>
+      <label>Capacity
+        <input type="number" [(ngModel)]="capacityInput" placeholder="e.g. 100" min="1" />
+      </label>
+    </div>
+    <button (click)="register()" [disabled]="loadingMap['register'] || !nameInput.trim() || !capacityInput || capacityInput < 1">
+      {{ loadingMap['register'] ? 'Registering…' : 'Register' }}
+    </button>
+    <p class="error" *ngIf="errorMap['register']">{{ errorMap['register'] }}</p>
+    <div class="results" *ngIf="registered">
+      <p class="count">Registered</p>
+      <table>
+        <tbody>
+          <tr *ngFor="let key of objectKeys(registered)">
+            <th>{{ key }}</th>
+            <td>{{ registered[key] | json }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>

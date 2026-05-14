@@ -1,0 +1,134 @@
+<div class="reports-container">
+  <h1>Reports Dashboard</h1>
+
+  <!-- ── Blocked Orders ──────────────────────────────────────── -->
+  <section class="card">
+    <h2>Blocked Orders <span class="endpoint">GET /blockedOrders</span></h2>
+    <button (click)="fetchAllBlockedOrders()" [disabled]="loadingMap['blockedOrders']">
+      {{ loadingMap['blockedOrders'] ? 'Loading…' : 'Fetch All' }}
+    </button>
+    <p class="error" *ngIf="errorMap['blockedOrders']">{{ errorMap['blockedOrders'] }}</p>
+    <div class="results" *ngIf="blockedOrders.length">
+      <p class="count">{{ blockedOrders.length }} record(s)</p>
+      <table>
+        <thead>
+          <tr>
+            <th *ngFor="let col of objectKeys(blockedOrders[0])">{{ col }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let order of blockedOrders">
+            <td *ngFor="let col of objectKeys(order)">{{ order[col] }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Blocked Order by ID <span class="endpoint">GET /blockedOrders/:id</span></h2>
+    <div class="input-row">
+      <input [(ngModel)]="blockedOrderIdInput" placeholder="Enter Blocked Order ID" />
+      <button (click)="fetchBlockedOrderById()" [disabled]="loadingMap['blockedOrderById'] || !blockedOrderIdInput.trim()">
+        {{ loadingMap['blockedOrderById'] ? 'Loading…' : 'Fetch' }}
+      </button>
+    </div>
+    <p class="error" *ngIf="errorMap['blockedOrderById']">{{ errorMap['blockedOrderById'] }}</p>
+    <div class="results" *ngIf="blockedOrderById">
+      <table>
+        <tbody>
+          <tr *ngFor="let key of objectKeys(blockedOrderById)">
+            <th>{{ key }}</th>
+            <td>{{ blockedOrderById[key] }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── Event Logs ──────────────────────────────────────────── -->
+  <section class="card">
+    <h2>Event Logs <span class="endpoint">GET /reports</span></h2>
+    <button (click)="fetchAllEventLogs()" [disabled]="loadingMap['eventLogs']">
+      {{ loadingMap['eventLogs'] ? 'Loading…' : 'Fetch All' }}
+    </button>
+    <p class="error" *ngIf="errorMap['eventLogs']">{{ errorMap['eventLogs'] }}</p>
+    <div class="results" *ngIf="eventLogs.length">
+      <p class="count">{{ eventLogs.length }} record(s)</p>
+      <table>
+        <thead>
+          <tr>
+            <th *ngFor="let col of objectKeys(eventLogs[0])">{{ col }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let log of eventLogs">
+            <td *ngFor="let col of objectKeys(log)">{{ log[col] }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Event Log by ID <span class="endpoint">GET /reports/:id</span></h2>
+    <div class="input-row">
+      <input [(ngModel)]="eventLogIdInput" placeholder="Enter Event Log ID" />
+      <button (click)="fetchEventLogById()" [disabled]="loadingMap['eventLogById'] || !eventLogIdInput.trim()">
+        {{ loadingMap['eventLogById'] ? 'Loading…' : 'Fetch' }}
+      </button>
+    </div>
+    <p class="error" *ngIf="errorMap['eventLogById']">{{ errorMap['eventLogById'] }}</p>
+    <div class="results" *ngIf="eventLogById">
+      <table>
+        <tbody>
+          <tr *ngFor="let key of objectKeys(eventLogById)">
+            <th>{{ key }}</th>
+            <td>{{ eventLogById[key] }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>System Stats <span class="endpoint">GET /reports/stats</span></h2>
+    <button (click)="fetchSystemStats()" [disabled]="loadingMap['systemStats']">
+      {{ loadingMap['systemStats'] ? 'Loading…' : 'Fetch Stats' }}
+    </button>
+    <p class="error" *ngIf="errorMap['systemStats']">{{ errorMap['systemStats'] }}</p>
+    <div class="results" *ngIf="systemStats">
+      <table>
+        <tbody>
+          <tr *ngFor="let key of objectKeys(systemStats)">
+            <th>{{ key }}</th>
+            <td>{{ systemStats[key] }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Order History <span class="endpoint">GET /reports/orders/history</span></h2>
+    <button (click)="fetchOrderHistory()" [disabled]="loadingMap['orderHistory']">
+      {{ loadingMap['orderHistory'] ? 'Loading…' : 'Fetch History' }}
+    </button>
+    <p class="error" *ngIf="errorMap['orderHistory']">{{ errorMap['orderHistory'] }}</p>
+    <div class="results" *ngIf="orderHistory.length">
+      <p class="count">{{ orderHistory.length }} record(s)</p>
+      <table>
+        <thead>
+          <tr>
+            <th *ngFor="let col of objectKeys(orderHistory[0])">{{ col }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of orderHistory">
+            <td *ngFor="let col of objectKeys(item)">{{ item[col] }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>
