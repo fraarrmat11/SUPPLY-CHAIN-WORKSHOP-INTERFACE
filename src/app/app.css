@@ -1,1 +1,159 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: #12121e;
+}
+
+body {
+  background-color: #12121e;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── NAV ── */
+
+nav {
+  display: flex;
+  align-items: center;
+  height: 50px;
+  padding: 0 20px;
+  gap: 4px;
+  background: #0e0e1a;
+  border-bottom: 1.5px solid #2e2e45;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+  flex-shrink: 0;
+  position: relative;
+}
+
+/* top accent line spanning green → orange */
+nav::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #1D9E75 0%, #5dcaa5 40%, #D85A30 70%, #f0997b 100%);
+}
+
+/* ── BRAND ── */
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: #5dcaa5;
+  text-transform: uppercase;
+  margin-right: 6px;
+  white-space: nowrap;
+}
+
+.brand-icon {
+  font-size: 16px;
+  color: #1D9E75;
+  text-shadow: 0 0 8px rgba(29, 158, 117, 0.6);
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { text-shadow: 0 0 8px rgba(29, 158, 117, 0.6); }
+  50%       { text-shadow: 0 0 16px rgba(93, 202, 165, 0.9); }
+}
+
+/* ── DIVIDER ── */
+
+.nav-divider {
+  width: 1px;
+  height: 24px;
+  background: #2e2e45;
+  margin: 0 8px;
+  flex-shrink: 0;
+}
+
+/* ── SPACER ── */
+
+.nav-spacer {
+  flex: 1;
+}
+
+/* ── LINKS ── */
+
+nav a {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 100%;
+  padding: 0 14px;
+  color: #55556e;
+  text-decoration: none;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border-bottom: 2px solid transparent;
+  outline: none;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+
+nav a:hover {
+  color: #5dcaa5;
+  background: rgba(29, 158, 117, 0.07);
+  border-bottom-color: #1D9E75;
+}
+
+nav a.active-link {
+  color: #5dcaa5;
+  border-bottom-color: #5dcaa5;
+}
+
+nav a:focus-visible {
+  outline: 2px solid #1D9E75;
+  outline-offset: -3px;
+}
+
+/* ── ICONS ── */
+
+.nav-icon {
+  font-size: 10px;
+  opacity: 0.75;
+  transition: opacity 0.15s;
+}
+
+nav a:hover .nav-icon,
+nav a.active-link .nav-icon {
+  opacity: 1;
+}
+
+.nav-icon--orange {
+  color: #D85A30;
+}
+
+nav a:hover .nav-icon--orange {
+  color: #f0997b;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.25; }
+}
+
+/* ── ROUTER OUTLET (content) ── */
+
+router-outlet + * {
+  flex: 1;
+  overflow: auto;
+}

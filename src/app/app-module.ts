@@ -5,9 +5,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing-module';
 import { App } from './app';
 import { MapGridComponent } from './map-grid-component/map-grid-component';
+import { ReportsComponent } from './reports-component/reports-component';
 
 @NgModule({
-  declarations: [App, MapGridComponent],
+  declarations: [App, MapGridComponent, ReportsComponent],
   imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
   bootstrap: [App],
 })

@@ -12,13 +12,17 @@
   <div>
     <input type="number" [(ngModel)]="days" min="1">
     <button (click)="advanceDays()">ADVANCE DAYS</button>
+    <p class="actualDay">DAY: {{ actualDay }}</p>
   </div>
+  <p class="hovered">{{ hoveredCell }}</p>
 
   <div class="gridMap">
-    @for (cell of cells; track $index) {
+    @for (cell of cells; track cell.index) {
       <div class="cell"
            [class.truck]="isTruck(cell.x, cell.y)"
-           [class.warehouse]="isWarehouse(cell.x, cell.y)">
+           [class.warehouse]="isWarehouse(cell.x, cell.y)"
+           (mouseenter)="getHoveredInfo(cell.x, cell.y)"
+           (mouseleave)="clearHovered()">
       </div>
     }
   </div>

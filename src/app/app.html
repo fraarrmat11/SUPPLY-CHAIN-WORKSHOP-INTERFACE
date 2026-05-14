@@ -1,1 +1,29 @@
-<app-map-grid></app-map-grid>
+<nav>
+  <span class="brand">
+    <span class="brand-icon">⬡</span>
+    SUPPLY CHAIN
+  </span>
+  <span class="nav-divider"></span>
+
+  <a routerLink="map" routerLinkActive="active-link">
+    <span class="nav-icon">◈</span> MAP
+  </a>
+  <a routerLink="reports" routerLinkActive="active-link">
+    <span class="nav-icon">◧</span> REPORTS
+  </a>
+
+  <span class="nav-divider"></span>
+
+  <a href="warehouses">
+    <span class="nav-icon nav-icon--orange">▣</span> WAREHOUSES
+  </a>
+  <a href="factories">
+    <span class="nav-icon nav-icon--orange">⚙</span> FACTORIES
+  </a>
+  <a href="trucks">
+    <span class="nav-icon">▶</span> TRUCKS
+  </a>
+
+</nav>
+
+<router-outlet></router-outlet>
