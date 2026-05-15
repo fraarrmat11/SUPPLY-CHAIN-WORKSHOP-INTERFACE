@@ -18,7 +18,7 @@ export interface CreateTruckRequest {
 
 @Injectable({ providedIn: 'root' })
 export class TruckService {
-  private readonly baseUrl = 'http://localhost:8080/trucks';
+  private readonly baseUrl = '/api/trucks';
 
   constructor(private http: HttpClient) {}
 
