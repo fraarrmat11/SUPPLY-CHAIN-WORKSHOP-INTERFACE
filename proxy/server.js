@@ -37,7 +37,7 @@ app.use('/api', createProxyMiddleware({
 }));
 
 // Serve Angular build
-const distPath = path.join(__dirname, '..', 'dist', 'app', 'browser');
+const distPath = path.join(__dirname, '..', 'dist', 'MAP-INTERFACE', 'browser');
 app.use(express.static(distPath));
 app.get('*', (req, res) =>
   res.sendFile(path.join(distPath, 'index.html'))
