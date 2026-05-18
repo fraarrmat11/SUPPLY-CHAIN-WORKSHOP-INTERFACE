@@ -1,0 +1,12 @@
+{
+  "/map": {
+    "target": "http://108.129.219.47:8080",
+    "changeOrigin": true,
+    "secure": false
+  },
+  "/tick": {
+    "target": "http://54.229.96.62:8081",
+    "changeOrigin": true,
+    "secure": false
+  }
+}
