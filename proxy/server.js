@@ -36,22 +36,16 @@ app.use('/api', createProxyMiddleware({
   pathRewrite: { '^/api': '' },
 }));
 
-// Direct routes (no /api prefix) → backend services
-app.use('/map', createProxyMiddleware({
+// Direct routes — pathFilter avoids Express path stripping
+app.use(createProxyMiddleware({
   target: MAP_SERVICE,
   changeOrigin: true,
-  onError: (err, req, res) => {
-    console.error('[proxy /map] error:', err.message);
-    res.status(502).json({ error: err.message });
-  },
+  pathFilter: (path) => path.startsWith('/map'),
 }));
-app.use('/tick', createProxyMiddleware({
+app.use(createProxyMiddleware({
   target: TICK_SERVICE,
   changeOrigin: true,
-  onError: (err, req, res) => {
-    console.error('[proxy /tick] error:', err.message);
-    res.status(502).json({ error: err.message });
-  },
+  pathFilter: (path) => path.startsWith('/tick'),
 }));
 
 // Serve Angular build
