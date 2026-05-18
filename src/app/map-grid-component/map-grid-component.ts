@@ -15,7 +15,7 @@ const MAP_POLL_INTERVAL_MS = 1000;
   selector: 'app-map-grid',
   templateUrl: './map-grid-component.html',
   styleUrls: ['./map-grid-component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush  // ← clave: solo rerenderiza cuando los datos cambian de verdad
+  changeDetection: ChangeDetectionStrategy.OnPush  // clave: solo rerenderiza cuando los datos cambian de verdad
 })
 export class MapGridComponent implements OnInit, OnDestroy {
   private pollSub?: Subscription;
@@ -41,7 +41,7 @@ export class MapGridComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.loadMapState();
     this.getActualDay();
-    //this.startPolling();
+    this.startPolling();
   }
 
   ngOnDestroy() {
@@ -49,11 +49,11 @@ export class MapGridComponent implements OnInit, OnDestroy {
   }
 
   trackByIndex(_: number, cell: { index: number }) {
-    return cell.index;  // ← evita que Angular destruya y recree las 2500 celdas en cada tick
+    return cell.index;  // evita que Angular destruya y recree las 2500 celdas en cada tick
   }
 
   advanceDays() {
-    this.http.post(`/api/tick/${this.days}`, {}).subscribe({
+    this.http.post(`54.229.96.62:8081/api/tick/${this.days}`, {}).subscribe({
       next: () => {
         this.getActualDay();
         this.loadMapState();
@@ -63,17 +63,17 @@ export class MapGridComponent implements OnInit, OnDestroy {
   }
 
   loadMapState() {
-    this.http.get<MapState>('/api/map').subscribe({
+    this.http.get<MapState>('108.129.219.47:8080/api/map').subscribe({
       next: (data) => {
         this.applyMapState(data);
-        this.cdr.markForCheck();  // ← notifica a OnPush que hay cambios
+        this.cdr.markForCheck();  // notifica a OnPush que hay cambios
       },
       error: (err) => console.error('Error cargando mapa:', err)
     });
   }
 
   getActualDay() {
-    this.http.get<{ currentDay: number }>('/api/tick/current').subscribe({
+    this.http.get<{ currentDay: number }>('54.229.96.62:8081/api/tick/current').subscribe({
       next: (data) => {
         this.actualDay = data.currentDay;
         this.cdr.markForCheck();
@@ -82,8 +82,6 @@ export class MapGridComponent implements OnInit, OnDestroy {
     });
   }
 
-  /*
-  DON'T TOUCH THIS
   startPolling() {
     this.pollSub = interval(MAP_POLL_INTERVAL_MS)
       .pipe(switchMap(() => this.http.get<MapState>('/api/map')))
@@ -95,7 +93,6 @@ export class MapGridComponent implements OnInit, OnDestroy {
         error: (err) => console.error('Error en polling:', err)
       });
   }
-  */
 
   private applyMapState(data: MapState) {
     this.trucks = data.trucks.map(t => ({
