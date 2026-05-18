@@ -41,7 +41,7 @@ export class MapGridComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.loadMapState();
     this.getActualDay();
-    this.startPolling();
+    //this.startPolling();
   }
 
   ngOnDestroy() {
@@ -95,12 +95,12 @@ export class MapGridComponent implements OnInit, OnDestroy {
   }
 
   private applyMapState(data: MapState) {
-    this.trucks = data.trucks.map(t => ({
+    this.trucks = (data?.trucks ?? []).map(t => ({
       id: t.truckId,
       x: t.location.x,
       y: t.location.y,
     }));
-    this.warehouses = data.warehouses.map(w => ({
+    this.warehouses = (data?.warehouses ?? []).map(w => ({
       id: w.warehouseId,
       x: w.location.x,
       y: w.location.y,
