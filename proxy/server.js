@@ -4,8 +4,8 @@ const path = require('path');
 
 const app = express();
 
-const MAP_SERVICE     = process.env.MAP_URL  || 'http://108.129.219.47:8080';
-const TICK_SERVICE    = process.env.TICK_URL || 'http://54.229.96.62:8081';
+const MAP_SERVICE     = process.env.MAP_URL  || 'http://34.241.189.20:8080';
+const TICK_SERVICE    = process.env.TICK_URL || 'http://3.254.200.29:8081';
 const REPORTS_SERVICE = process.env.REPORTS_URL || 'http://localhost:8082';
 
 // /api/tick/* → tick service (strips /api prefix)
