@@ -37,8 +37,22 @@ app.use('/api', createProxyMiddleware({
 }));
 
 // Direct routes (no /api prefix) → backend services
-app.use('/map', createProxyMiddleware({ target: MAP_SERVICE, changeOrigin: true }));
-app.use('/tick', createProxyMiddleware({ target: TICK_SERVICE, changeOrigin: true }));
+app.use('/map', createProxyMiddleware({
+  target: MAP_SERVICE,
+  changeOrigin: true,
+  onError: (err, req, res) => {
+    console.error('[proxy /map] error:', err.message);
+    res.status(502).json({ error: err.message });
+  },
+}));
+app.use('/tick', createProxyMiddleware({
+  target: TICK_SERVICE,
+  changeOrigin: true,
+  onError: (err, req, res) => {
+    console.error('[proxy /tick] error:', err.message);
+    res.status(502).json({ error: err.message });
+  },
+}));
 
 // Serve Angular build
 const distPath = path.join(__dirname, '..', 'dist', 'MAP-INTERFACE', 'browser');
