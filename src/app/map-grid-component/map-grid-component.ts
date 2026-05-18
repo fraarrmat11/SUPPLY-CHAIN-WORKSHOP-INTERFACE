@@ -53,7 +53,7 @@ export class MapGridComponent implements OnInit, OnDestroy {
   }
 
   advanceDays() {
-    this.http.post(`/api/tick/${this.days}`, {}).subscribe({
+    this.http.post(`/tick/${this.days}`, {}).subscribe({
       next: () => {
         this.getActualDay();
         this.loadMapState();
@@ -63,7 +63,7 @@ export class MapGridComponent implements OnInit, OnDestroy {
   }
 
   loadMapState() {
-    this.http.get<MapState>('/api/map').subscribe({
+    this.http.get<MapState>('/map').subscribe({
       next: (data) => {
         this.applyMapState(data);
         this.cdr.markForCheck();  // notifica a OnPush que hay cambios
