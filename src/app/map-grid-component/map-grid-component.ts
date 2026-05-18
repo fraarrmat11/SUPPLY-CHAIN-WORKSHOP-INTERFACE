@@ -63,7 +63,7 @@ export class MapGridComponent implements OnInit, OnDestroy {
   }
 
   loadMapState() {
-    this.http.get<MapState>('/api/map').subscribe({
+    this.http.get<MapState>('/map').subscribe({
       next: (data) => {
         this.applyMapState(data);
         this.cdr.markForCheck();  // notifica a OnPush que hay cambios
@@ -73,7 +73,7 @@ export class MapGridComponent implements OnInit, OnDestroy {
   }
 
   getActualDay() {
-    this.http.get<{ currentDay: number }>('/api/tick/current').subscribe({
+    this.http.get<{ currentDay: number }>('/tick/current').subscribe({
       next: (data) => {
         this.actualDay = data.currentDay;
         this.cdr.markForCheck();
@@ -84,7 +84,7 @@ export class MapGridComponent implements OnInit, OnDestroy {
 
   startPolling() {
     this.pollSub = interval(MAP_POLL_INTERVAL_MS)
-      .pipe(switchMap(() => this.http.get<MapState>('/api/map')))
+      .pipe(switchMap(() => this.http.get<MapState>('/map')))
       .subscribe({
         next: (data) => {
           this.applyMapState(data);
