@@ -36,17 +36,15 @@ app.use('/api', createProxyMiddleware({
   pathRewrite: { '^/api': '' },
 }));
 
-// Direct routes — pathFilter avoids Express path stripping
-app.use(createProxyMiddleware({
-  target: MAP_SERVICE,
-  changeOrigin: true,
-  pathFilter: (path) => path.startsWith('/map'),
-}));
-app.use(createProxyMiddleware({
-  target: TICK_SERVICE,
-  changeOrigin: true,
-  pathFilter: (path) => path.startsWith('/tick'),
-}));
+// Direct routes — filter as first arg (v2 API) avoids Express path stripping
+app.use(createProxyMiddleware(
+  (path) => path.startsWith('/map'),
+  { target: MAP_SERVICE, changeOrigin: true }
+));
+app.use(createProxyMiddleware(
+  (path) => path.startsWith('/tick'),
+  { target: TICK_SERVICE, changeOrigin: true }
+));
 
 // Serve Angular build
 const distPath = path.join(__dirname, '..', 'dist', 'MAP-INTERFACE', 'browser');
