@@ -36,6 +36,10 @@ app.use('/api', createProxyMiddleware({
   pathRewrite: { '^/api': '' },
 }));
 
+// Direct routes (no /api prefix) → backend services
+app.use('/map', createProxyMiddleware({ target: MAP_SERVICE, changeOrigin: true }));
+app.use('/tick', createProxyMiddleware({ target: TICK_SERVICE, changeOrigin: true }));
+
 // Serve Angular build
 const distPath = path.join(__dirname, '..', 'dist', 'MAP-INTERFACE', 'browser');
 app.use(express.static(distPath));
