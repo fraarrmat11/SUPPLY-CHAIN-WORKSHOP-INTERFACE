@@ -53,7 +53,7 @@ export class MapGridComponent implements OnInit, OnDestroy {
   }
 
   advanceDays() {
-    this.http.post(`http://54.229.96.62:8081/api/tick/${this.days}`, {}).subscribe({
+    this.http.post(`/api/tick/${this.days}`, {}).subscribe({
       next: () => {
         this.getActualDay();
         this.loadMapState();
@@ -63,7 +63,7 @@ export class MapGridComponent implements OnInit, OnDestroy {
   }
 
   loadMapState() {
-    this.http.get<MapState>('http://108.129.219.47:8080/api/map').subscribe({
+    this.http.get<MapState>('/api/map').subscribe({
       next: (data) => {
         this.applyMapState(data);
         this.cdr.markForCheck();  // notifica a OnPush que hay cambios
@@ -73,7 +73,7 @@ export class MapGridComponent implements OnInit, OnDestroy {
   }
 
   getActualDay() {
-    this.http.get<{ currentDay: number }>('http://54.229.96.62:8081/api/tick/current').subscribe({
+    this.http.get<{ currentDay: number }>('/api/tick/current').subscribe({
       next: (data) => {
         this.actualDay = data.currentDay;
         this.cdr.markForCheck();
