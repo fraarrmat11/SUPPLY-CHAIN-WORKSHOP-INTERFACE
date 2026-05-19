@@ -1,4 +1,4 @@
-const BACKEND = 'http://34.254.187.162:8080';
+const BACKEND = 'http://taller-deploy-aws-2026-nlb-pulz-adee7212e878911f.elb.eu-west-1.amazonaws.com:8080';
 
 function proxyHeaders(request) {
   const headers = new Headers(request.headers);
