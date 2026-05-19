@@ -7,19 +7,19 @@ const app = express();
 const MAP_SERVICE  = process.env.MAP_URL  || 'http://18.201.124.29:8080';
 const TICK_SERVICE = process.env.TICK_URL || 'http://54.75.38.39:8081';
 
-// /api/tick/* → tick service (strips /api, backend receives /tick/...)
-app.use('/api/tick', createProxyMiddleware({
-  target: TICK_SERVICE,
-  changeOrigin: true,
-  pathRewrite: { '^/api': '' },
-}));
+app.use((req, _res, next) => { console.log(`[proxy] ${req.method} ${req.url}`); next(); });
 
-// /api/map → map service (strips /api, backend receives /map)
-app.use('/api/map', createProxyMiddleware({
-  target: MAP_SERVICE,
-  changeOrigin: true,
-  pathRewrite: { '^/api': '' },
-}));
+// filter as 1st arg avoids Express path stripping — pathRewrite sees the full /api/... path
+app.use(createProxyMiddleware(
+  (pathname) => pathname.startsWith('/api/tick'),
+  { target: TICK_SERVICE, changeOrigin: true, pathRewrite: { '^/api': '' },
+    on: { error: (err) => console.error('[proxy] tick error:', err.message) } }
+));
+app.use(createProxyMiddleware(
+  (pathname) => pathname.startsWith('/api/map'),
+  { target: MAP_SERVICE, changeOrigin: true, pathRewrite: { '^/api': '' },
+    on: { error: (err) => console.error('[proxy] map error:', err.message) } }
+));
 
 // TODO: uncomment when these services are deployed
 // const REPORTS_SERVICE = process.env.REPORTS_URL || 'http://<pending>';
