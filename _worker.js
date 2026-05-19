@@ -1,9 +1,9 @@
 const BACKEND = 'http://taller-deploy-aws-2026-nlb-pulz-adee7212e878911f.elb.eu-west-1.amazonaws.com:8080';
 
 function proxyHeaders(request) {
-  const headers = new Headers(request.headers);
-  headers.delete('host');
-  headers.delete('origin');
+  const headers = new Headers();
+  const contentType = request.headers.get('content-type');
+  if (contentType) headers.set('content-type', contentType);
   return headers;
 }
 
