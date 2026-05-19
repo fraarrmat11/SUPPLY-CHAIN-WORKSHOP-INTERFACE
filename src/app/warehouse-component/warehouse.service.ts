@@ -12,7 +12,7 @@ export interface FactoryIdDTO {
 
 @Injectable({ providedIn: 'root' })
 export class WarehouseService {
-  private readonly baseUrl = '/api/warehouses';
+  private readonly baseUrl = '/warehouses';
 
   constructor(private http: HttpClient) {}
 
