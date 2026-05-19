@@ -3,6 +3,7 @@ const BACKEND = 'http://taller-deploy-aws-2026-nlb-pulz-adee7212e878911f.elb.eu-
 function proxyHeaders(request) {
   const headers = new Headers(request.headers);
   headers.delete('host');
+  headers.delete('origin');
   return headers;
 }
 
