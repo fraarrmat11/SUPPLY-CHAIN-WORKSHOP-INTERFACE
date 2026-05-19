@@ -49,9 +49,9 @@ export interface PlaceWarehouseOrderResponse {
 
 @Injectable({ providedIn: 'root' })
 export class FactoryService {
-  private readonly factoryUrl = 'http://localhost:8080/factories';
-  private readonly recipeUrl  = 'http://localhost:8080/recipes';
-  private readonly orderUrl   = 'http://localhost:8080/warehouses';
+  private readonly factoryUrl = '/factories';
+  private readonly recipeUrl  = '/recipes';
+  private readonly orderUrl   = '/warehouses';
 
   constructor(private http: HttpClient) {}
 

@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: supply-chain-workshop-interface
+    runtime: node
+    buildCommand: npm install && npm run build && cd proxy && npm install
+    startCommand: node proxy/server.js
+    envVars:
+      - key: REPORTS_URL
+        value: http://localhost:8082

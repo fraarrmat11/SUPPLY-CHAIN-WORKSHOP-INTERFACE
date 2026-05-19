@@ -20,7 +20,7 @@ export interface OrderHistoryProjection {
 
 @Injectable({ providedIn: 'root' })
 export class ReportsService {
-  private readonly baseUrl = 'http://localhost:8082';
+  private readonly baseUrl = '';
 
   constructor(private http: HttpClient) {}
 
