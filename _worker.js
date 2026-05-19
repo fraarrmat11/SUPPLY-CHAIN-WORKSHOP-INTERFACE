@@ -11,6 +11,12 @@ export default {
     const url = new URL(request.url);
     const { pathname, search } = url;
 
+    if (pathname === '/healthz') {
+      return new Response(JSON.stringify({ version: 'v3-no-host-header', backend: BACKEND }), {
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
     if (pathname.startsWith('/api/tick') || pathname.startsWith('/api/map')) {
       const target = pathname.replace('/api', '') + search;
       return fetch(`${BACKEND}${target}`, {
