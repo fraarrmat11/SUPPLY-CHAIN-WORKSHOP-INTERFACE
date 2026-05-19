@@ -9,8 +9,6 @@ interface ApiWarehouse { warehouseId: string; location: { x: number; y: number }
 interface MapState { trucks: ApiTruck[]; warehouses: ApiWarehouse[]; }
 
 const MAP_POLL_INTERVAL_MS = 1000;
-const MAP_SERVICE  = 'http://18.201.124.29:8080';
-const TICK_SERVICE = 'http://54.75.38.39:8081';
 
 @Component({
   standalone: false,
@@ -55,7 +53,7 @@ export class MapGridComponent implements OnInit, OnDestroy {
   }
 
   advanceDays() {
-    this.http.post(`${TICK_SERVICE}/tick/${this.days}`, {}).subscribe({
+    this.http.post(`/api/tick/${this.days}`, {}).subscribe({
       next: () => {
         this.getActualDay();
         this.loadMapState();
@@ -65,7 +63,7 @@ export class MapGridComponent implements OnInit, OnDestroy {
   }
 
   loadMapState() {
-    this.http.get<MapState>(`${MAP_SERVICE}/map`).subscribe({
+    this.http.get<MapState>('/api/map').subscribe({
       next: (data) => {
         this.applyMapState(data);
         this.cdr.markForCheck();  // notifica a OnPush que hay cambios
@@ -75,7 +73,7 @@ export class MapGridComponent implements OnInit, OnDestroy {
   }
 
   getActualDay() {
-    this.http.get<{ currentDay: number }>(`${TICK_SERVICE}/tick/current`).subscribe({
+    this.http.get<{ currentDay: number }>('/api/tick/current').subscribe({
       next: (data) => {
         this.actualDay = data.currentDay;
         this.cdr.markForCheck();
@@ -86,7 +84,7 @@ export class MapGridComponent implements OnInit, OnDestroy {
 
   startPolling() {
     this.pollSub = interval(MAP_POLL_INTERVAL_MS)
-      .pipe(switchMap(() => this.http.get<MapState>(`${MAP_SERVICE}/map`)))
+      .pipe(switchMap(() => this.http.get<MapState>('/api/map')))
       .subscribe({
         next: (data) => {
           this.applyMapState(data);

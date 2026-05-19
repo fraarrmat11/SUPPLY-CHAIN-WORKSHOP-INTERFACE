@@ -7,15 +7,19 @@ const app = express();
 const MAP_SERVICE  = process.env.MAP_URL  || 'http://18.201.124.29:8080';
 const TICK_SERVICE = process.env.TICK_URL || 'http://54.75.38.39:8081';
 
-// filter as first arg (v2 API) avoids Express path stripping — keeps /tick and /map in the forwarded URL
-app.use(createProxyMiddleware(
-  (path) => path.startsWith('/tick'),
-  { target: TICK_SERVICE, changeOrigin: true }
-));
-app.use(createProxyMiddleware(
-  (path) => path.startsWith('/map'),
-  { target: MAP_SERVICE, changeOrigin: true }
-));
+// /api/tick/* → tick service (strips /api, backend receives /tick/...)
+app.use('/api/tick', createProxyMiddleware({
+  target: TICK_SERVICE,
+  changeOrigin: true,
+  pathRewrite: { '^/api': '' },
+}));
+
+// /api/map → map service (strips /api, backend receives /map)
+app.use('/api/map', createProxyMiddleware({
+  target: MAP_SERVICE,
+  changeOrigin: true,
+  pathRewrite: { '^/api': '' },
+}));
 
 // TODO: uncomment when these services are deployed
 // const REPORTS_SERVICE = process.env.REPORTS_URL || 'http://<pending>';
