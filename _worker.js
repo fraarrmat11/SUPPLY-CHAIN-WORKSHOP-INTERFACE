@@ -1,26 +1,21 @@
 const BACKEND = 'http://34.254.187.162:8080';
-const MAP_SERVICE  = BACKEND;
-const TICK_SERVICE = BACKEND;
+
+function proxyHeaders(request) {
+  const headers = new Headers(request.headers);
+  headers.delete('host');
+  return headers;
+}
 
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     const { pathname, search } = url;
 
-    if (pathname.startsWith('/api/tick')) {
+    if (pathname.startsWith('/api/tick') || pathname.startsWith('/api/map')) {
       const target = pathname.replace('/api', '') + search;
-      return fetch(`${TICK_SERVICE}${target}`, {
+      return fetch(`${BACKEND}${target}`, {
         method: request.method,
-        headers: request.headers,
-        body: request.method !== 'GET' && request.method !== 'HEAD' ? request.body : undefined,
-      });
-    }
-
-    if (pathname.startsWith('/api/map')) {
-      const target = pathname.replace('/api', '') + search;
-      return fetch(`${MAP_SERVICE}${target}`, {
-        method: request.method,
-        headers: request.headers,
+        headers: proxyHeaders(request),
         body: request.method !== 'GET' && request.method !== 'HEAD' ? request.body : undefined,
       });
     }
