@@ -17,6 +17,18 @@ export default {
       });
     }
 
+    if (pathname === '/debug') {
+      try {
+        const res = await fetch(`${BACKEND}/map`, { method: 'GET', headers: proxyHeaders(request) });
+        const body = await res.text();
+        return new Response(JSON.stringify({ status: res.status, headers: Object.fromEntries(res.headers), body }), {
+          headers: { 'Content-Type': 'application/json' },
+        });
+      } catch (e) {
+        return new Response(JSON.stringify({ error: e.message }), { status: 500, headers: { 'Content-Type': 'application/json' } });
+      }
+    }
+
     if (pathname.startsWith('/api/tick') || pathname.startsWith('/api/map')) {
       const target = pathname.replace('/api', '') + search;
       return fetch(`${BACKEND}${target}`, {
