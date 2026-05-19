@@ -4,8 +4,8 @@ const path = require('path');
 
 const app = express();
 
-const MAP_SERVICE  = process.env.MAP_URL  || 'http://34.241.189.20:8080';
-const TICK_SERVICE = process.env.TICK_URL || 'http://3.254.200.29:8081';
+const MAP_SERVICE  = process.env.MAP_URL  || 'http://18.201.124.29:8080';
+const TICK_SERVICE = process.env.TICK_URL || 'http://54.75.38.39:8081';
 
 // /tick/* → tick service
 app.use('/tick', createProxyMiddleware({
